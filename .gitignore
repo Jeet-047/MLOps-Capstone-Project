@@ -205,3 +205,12 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Newly added lines
+desktop.ini
+capstone/
+credentials.txt
+notebooks/
+local_s3/
+data/
+models/
