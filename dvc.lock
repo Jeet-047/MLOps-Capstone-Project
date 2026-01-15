@@ -1,0 +1,92 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/data/data_ingestion.py
+    deps:
+    - path: src/data/data_ingestion.py
+      hash: md5
+      md5: 25356e6ca3225042920bfd35f0382e63
+      size: 3437
+    params:
+      params.yaml:
+        data_ingestion.random_state: 47
+        data_ingestion.test_size: 0.2
+    outs:
+    - path: data/raw
+      hash: md5
+      md5: 0939210e7ee4ea9e7ab961742d0eb61d.dir
+      size: 1321255
+      nfiles: 2
+  data_preprocessing:
+    cmd: python src/data/data_preprocessing.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 0939210e7ee4ea9e7ab961742d0eb61d.dir
+      size: 1321255
+      nfiles: 2
+    - path: src/data/data_preprocessing.py
+      hash: md5
+      md5: 7d0ce7264353692d002a02ddfd4e22f2
+      size: 3445
+    params:
+      params.yaml:
+        data_preprocessing.preprocessing_column: review
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: 5d347186024b20111f974e750bd6cbd4.dir
+      size: 811442
+      nfiles: 2
+  model_building:
+    cmd: python src/model/model_building.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 5d347186024b20111f974e750bd6cbd4.dir
+      size: 811442
+      nfiles: 2
+    - path: src/model/model_building.py
+      hash: md5
+      md5: 0c11e32440c093b9965cb41867a6cc98
+      size: 2951
+    params:
+      params.yaml:
+        model_building.clf:
+          C: 10
+          class_weight:
+          max_iter: 1000
+          solver: lbfgs
+        model_building.tfidf:
+          max_df: 0.9
+          min_df: 1
+          ngram_range:
+          - 1
+          - 2
+          norm: l2
+          sublinear_tf: true
+    outs:
+    - path: models/model.pkl
+      hash: md5
+      md5: db3cb569abff30d10e57ef61e3e79f41
+      size: 3274619
+  model_evaluation_registration:
+    cmd: python src/model/model_evaluation_register.py
+    deps:
+    - path: models/model.pkl
+      hash: md5
+      md5: db3cb569abff30d10e57ef61e3e79f41
+      size: 3274619
+    - path: src/model/model_evaluation_register.py
+      hash: md5
+      md5: e4e6faad0b0681eaf3f183cf1ec1716f
+      size: 4805
+    params:
+      params.yaml:
+        model_eval_register.logged_model_name: tfidf_lr_model
+        model_eval_register.registered_model_name: sentiment_model
+    outs:
+    - path: reports/metrics.json
+      hash: md5
+      md5: cbc43137386568509a450acc273e800d
+      size: 120

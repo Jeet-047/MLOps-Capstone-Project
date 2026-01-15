@@ -1,0 +1,44 @@
+# updated dvc.yaml
+
+stages:
+  data_ingestion:
+    cmd: python src/data/data_ingestion.py
+    deps:
+    - src/data/data_ingestion.py
+    params:
+    - data_ingestion.test_size
+    - data_ingestion.random_state
+    outs:
+    - data/raw
+
+  data_preprocessing:
+    cmd: python src/data/data_preprocessing.py
+    deps:
+    - data/raw
+    - src/data/data_preprocessing.py
+    params:
+    - data_preprocessing.preprocessing_column
+    outs:
+    - data/processed
+
+  model_building:
+    cmd: python src/model/model_building.py
+    deps:
+    - data/processed
+    - src/model/model_building.py
+    params:
+    - model_building.tfidf
+    - model_building.clf
+    outs:
+    - models/model.pkl
+
+  model_evaluation_registration:
+    cmd: python src/model/model_evaluation_register.py
+    deps:
+    - models/model.pkl
+    - src/model/model_evaluation_register.py
+    params:
+    - model_eval_register.logged_model_name
+    - model_eval_register.registered_model_name
+    metrics:
+    - reports/metrics.json

@@ -1,0 +1,23 @@
+data_ingestion:
+  test_size: 0.2
+  random_state: 47
+
+data_preprocessing:
+  preprocessing_column: "review"
+
+model_building:
+  tfidf:
+    max_df: 0.9
+    min_df: 1
+    ngram_range: [1, 2]
+    norm: "l2"
+    sublinear_tf: True
+  clf:
+    C: 10
+    class_weight: null
+    max_iter: 1000
+    solver: "lbfgs"
+
+model_eval_register:
+  logged_model_name: "tfidf_lr_model"
+  registered_model_name: "sentiment_model"

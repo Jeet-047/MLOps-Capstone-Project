@@ -2,3 +2,5 @@ dagshub
 mlflow
 nltk
 dvc
+
+-e .

@@ -212,5 +212,11 @@ capstone/
 credentials.txt
 notebooks/
 local_s3/
-data/
-models/
+test_processed.csv
+train_processed.csv
+test.csv
+train.csv
+model.pkl
+metrics.json
+logs/
+test.py
