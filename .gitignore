@@ -222,3 +222,7 @@ data/raw/*.csv
 
 # Ignore trained models
 models/*.pkl
+
+test_environment.py
+tox.ini
+Makefile
