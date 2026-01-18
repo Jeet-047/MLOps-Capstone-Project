@@ -212,11 +212,13 @@ capstone/
 credentials.txt
 notebooks/
 local_s3/
-test_processed.csv
-train_processed.csv
-test.csv
-train.csv
-model.pkl
 metrics.json
 logs/
 test.py
+
+# Ignore data files but keep structure
+data/processed/*.csv
+data/raw/*.csv
+
+# Ignore trained models
+models/*.pkl
